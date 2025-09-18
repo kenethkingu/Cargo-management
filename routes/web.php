@@ -1,16 +1,16 @@
 <?php
+
 use App\Http\Controllers\CargoController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+// Upload and welcome page
+Route::get('/', [CargoController::class, 'welcome'])->name('cargo.welcome'); // no table
 
-Route::get('/cargo/import', [CargoController::class, 'import'])->name('cargo.import');
+// View data page
+Route::get('/view', [CargoController::class, 'index'])->name('cargo.index'); // fetch table
+
+// Import Excel
+Route::post('/cargo/import', [CargoController::class, 'import'])->name('cargo.import');
+
+// Resource routes
+Route::resource('cargo', CargoController::class);
