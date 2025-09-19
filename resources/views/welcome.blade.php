@@ -24,11 +24,27 @@
     @endif
 
     <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+<form id="uploadForm" action="{{ route('cargo.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center w-full max-w-md space-x-2">
+    @csrf
+    <div class="flex w-full border border-gray-400 rounded-md overflow-hidden bg-white">
+        <!-- Text input to show file name -->
+        <input type="text" id="file-name" placeholder="Select your Excel file" 
+               readonly 
+               class="flex-1 px-3 py-2 text-gray-600 cursor-pointer"
+               onclick="document.getElementById('file-upload').click();">
 
-        {{-- Blue Search Icon: Select Excel --}}
-        <form action="{{ route('cargo.import') }}" method="POST" enctype="multipart/form-data" class="flex items-center space-x-2">
-            @csrf
-            <input type="file" name="file" class="border border-gray-400 rounded-md p-2" required>
+        <!-- Blue search icon button -->
+        <button type="button" onclick="document.getElementById('file-upload').click();" 
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+            </svg>
+        </button>
+
+        <!-- Hidden file input -->
+        <input type="file" name="file" id="file-upload" class="hidden" >
+    </div>
+
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-md">
                 Upload
             </button>
@@ -98,5 +114,29 @@
     @endif
 
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const fileInput = document.getElementById('file-upload');
+    const fileNameField = document.getElementById('file-name');
+    const uploadForm = document.getElementById('uploadForm');
+
+    // Show selected file name
+    fileInput.addEventListener('change', function(){
+        if(this.files && this.files.length > 0){
+            fileNameField.value = this.files[0].name;
+        } else {
+            fileNameField.value = '';
+        }
+    });
+
+    // Front-end validation before submitting
+    uploadForm.addEventListener('submit', function(e){
+        if(!fileInput.files || fileInput.files.length === 0){
+            e.preventDefault();
+            alert('No file selected! Please select an Excel file before uploading.');
+        }
+    });
+});
+</script>
 </body>
 </html>
