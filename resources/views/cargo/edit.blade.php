@@ -34,7 +34,7 @@
 
         <div>
             <label class="block text-sm font-semibold mb-2">Weight (kg)</label>
-            <input type="number" step="0.01" name="weight" value="{{ old('weight', $cargo->weight) }}" 
+            <input type="number"  name="weight" value="{{ old('weight', $cargo->weight) }}" 
                    class="w-full border px-3 py-2 rounded">
         </div>
 
